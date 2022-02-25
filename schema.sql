@@ -1,17 +1,14 @@
 /* Database schema to keep the structure of entire database. */
-
 CREATE TABLE animals (
-    id INT GENERATED  ALWAYS AS IDENTITY,
+    id INT GENERATED ALWAYS AS IDENTITY,
     name CHAR(25) NOT NULL,
     date_of_birth DATE,
     escape_attempts INT,
     neutered BOOLEAN,
     weight_kg FLOAT NOT NULL
 );
-
 ALTER TABLE animals
 ADD species CHAR(20);
-
 CREATE TABLE owners (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(20),

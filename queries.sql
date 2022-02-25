@@ -1,83 +1,132 @@
 /*Queries that provide answers to the questions from all projects.*/
-
-SELECT * FROM animals WHERE name LIKE '%mon';
-SELECT name FROM animals WHERE date_of_birth BETWEEN '2016-01-01' AND '2019-01-01';
-SELECT name FROM animals WHERE neutered AND escape_attempts < 3;
-SELECT date_of_birth FROM animals WHERE name LIKE 'Agumon' OR name LIKE 'Pikachu';
-SELECT name, escape_attempts FROM animals WHERE weight_kg > 10.5;
-SELECT * FROM animals WHERE neutered;
-SELECT * FROM animals WHERE name NOT LIKE 'Gabumon';
-SELECT * FROM animals WHERE weight_kg >= 10.4 AND weight_kg <= 17.3;
-
+SELECT *
+FROM animals
+WHERE name LIKE '%mon';
+SELECT name
+FROM animals
+WHERE date_of_birth BETWEEN '2016-01-01' AND '2019-01-01';
+SELECT name
+FROM animals
+WHERE neutered
+  AND escape_attempts < 3;
+SELECT date_of_birth
+FROM animals
+WHERE name LIKE 'Agumon'
+  OR name LIKE 'Pikachu';
+SELECT name,
+  escape_attempts
+FROM animals
+WHERE weight_kg > 10.5;
+SELECT *
+FROM animals
+WHERE neutered;
+SELECT *
+FROM animals
+WHERE name NOT LIKE 'Gabumon';
+SELECT *
+FROM animals
+WHERE weight_kg >= 10.4
+  AND weight_kg <= 17.3;
 BEGIN;
-UPDATE animals SET species = 'unspecified';
-SELECT species FROM animals;
+UPDATE animals
+SET species = 'unspecified';
+SELECT species
+FROM animals;
 ROLLBACK;
-
-SELECT speces FROM animals;
-
+SELECT speces
+FROM animals;
 BEGIN;
-UPDATE animals SET species = 'Digimon' WHERE name LIKE '%mon';
-UPDATE animals SET species = 'Pokemon' WHERE species IS NULL;
-
-SELECT * FROM animals;
-
+UPDATE animals
+SET species = 'Digimon'
+WHERE name LIKE '%mon';
+UPDATE animals
+SET species = 'Pokemon'
+WHERE species IS NULL;
+SELECT *
+FROM animals;
 COMMIT;
-
-SELECT * FROM animals;
-
+SELECT *
+FROM animals;
 BEGIN;
 DELETE FROM animals;
-SELECT * FROM animals;
+SELECT *
+FROM animals;
 ROLLBACK;
-SELECT * FROM animals;
-
+SELECT *
+FROM animals;
 BEGIN;
-DELETE FROM animals WHERE date_of_birth > '2022-1-1';
+DELETE FROM animals
+WHERE date_of_birth > '2022-1-1';
 SAVEPOINT first_delete;
-UPDATE animals SET weight_kg = -1 * weight_kg;
+UPDATE animals
+SET weight_kg = -1 * weight_kg;
 ROLLBACK TO first_delete;
-UPDATE animals SET weight_kg = -1 * weight_kg WHERE weight_kg < 0;
+UPDATE animals
+SET weight_kg = -1 * weight_kg
+WHERE weight_kg < 0;
 COMMIT;
-
-SELECT COUNT(*) FROM animals;
-
-SELECT COUNT(*) FROM animals WHERE escape_attempts = 0;
-
-SELECT AVG(weight_kg) FROM animals;
-
-SELECT COUNT(*) FROM animals WHERE neutered = FALSE;
-
-SELECT COUNT(*) FROM animals WHERE neutered = TRUE;
-
-SELECT neutered, MAX(escape_attempts) FROM animals
+SELECT COUNT(*)
+FROM animals;
+SELECT COUNT(*)
+FROM animals
+WHERE escape_attempts = 0;
+SELECT AVG(weight_kg)
+FROM animals;
+SELECT COUNT(*)
+FROM animals
+WHERE neutered = FALSE;
+SELECT COUNT(*)
+FROM animals
+WHERE neutered = TRUE;
+SELECT neutered,
+  MAX(escape_attempts)
+FROM animals
 GROUP BY neutered;
-
-SELECT species, MIN(weight_kg), MAX(weight_kg) FROM animals GROUP BY species;
-
-SELECT species, AVG(escape_attempts) FROM animals WHERE date_of_birth >= '01-01-1990' AND date_of_birth < '12-31-2000' GROUP BY species;
-
-
-
-SELECT animals.name FROM animals 
-JOIN owners ON animals.owners_id = owners.id 
+SELECT species,
+  MIN(weight_kg),
+  MAX(weight_kg)
+FROM animals
+GROUP BY species;
+SELECT species,
+  AVG(escape_attempts)
+FROM animals
+WHERE date_of_birth >= '01-01-1990'
+  AND date_of_birth < '12-31-2000'
+GROUP BY species;
+SELECT animals.name
+FROM animals
+  JOIN owners ON animals.owners_id = owners.id
 WHERE owners.full_name = 'Melody Pond';
-
-SELECT animals.*, species.name AS species_name FROM animals 
-JOIN species ON animals.species_id = species.id WHERE species.name = 'Pokemon';
-
-SELECT animals.name AS animal_name, owners.fulL_name AS owner_name FROM owners 
-LEFT JOIN animals ON owners.id = animals.owners_id;
-
-SELECT species.name, COUNT(*) FROM animals 
-JOIN species ON species.id = animals.species_id GROUP BY species.name;
-
-SELECT animals.name AS animal_name, owners.full_name AS owner_name, species.name AS species_name FROM animals
-JOIN species ON species.id = animals.species_id JOIN owners ON owners.id = animals.owners_id WHERE species.name = 'Digimon' AND owners.full_name = 'Jennifer Orwell';
-
-SELECT * FROM animals
-JOIN owners ON animals.owners_id = owners.id 
-WHERE owners.full_name = 'Dean Winchester' AND animals.escape_attempts = 0;
-
-SELECT owners.full_name, COUNT(animals.name) AS num_animals FROM owners
-LEFT JOIN animals ON owners.id = animals.owners_id GROUP BY owners.full_name ORDER BY num_animals DESC;
+SELECT animals.*,
+  species.name AS species_name
+FROM animals
+  JOIN species ON animals.species_id = species.id
+WHERE species.name = 'Pokemon';
+SELECT animals.name AS animal_name,
+  owners.fulL_name AS owner_name
+FROM owners
+  LEFT JOIN animals ON owners.id = animals.owners_id;
+SELECT species.name,
+  COUNT(*)
+FROM animals
+  JOIN species ON species.id = animals.species_id
+GROUP BY species.name;
+SELECT animals.name AS animal_name,
+  owners.full_name AS owner_name,
+  species.name AS species_name
+FROM animals
+  JOIN species ON species.id = animals.species_id
+  JOIN owners ON owners.id = animals.owners_id
+WHERE species.name = 'Digimon'
+  AND owners.full_name = 'Jennifer Orwell';
+SELECT *
+FROM animals
+  JOIN owners ON animals.owners_id = owners.id
+WHERE owners.full_name = 'Dean Winchester'
+  AND animals.escape_attempts = 0;
+SELECT owners.full_name,
+  COUNT(animals.name) AS num_animals
+FROM owners
+  LEFT JOIN animals ON owners.id = animals.owners_id
+GROUP BY owners.full_name
+ORDER BY num_animals DESC;
