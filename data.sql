@@ -250,6 +250,45 @@ VALUES (
     (
       SELECT id
       FROM animals
+      WHERE name = 'Plantmon'
+    ),
+    (
+      SELECT id
+      FROM vets
+      WHERE name = 'Maisy Smith'
+    ),
+    '12/21/2019'
+  ),
+  (
+    (
+      SELECT id
+      FROM animals
+      WHERE name = 'Plantmon'
+    ),
+    (
+      SELECT id
+      FROM vets
+      WHERE name = 'William Tatcher'
+    ),
+    '08/10/2020'
+  ),
+  (
+    (
+      SELECT id
+      FROM animals
+      WHERE name = 'Plantmon'
+    ),
+    (
+      SELECT id
+      FROM vets
+      WHERE name = 'Maisy Smith'
+    ),
+    '04/07/2021'
+  ),
+  (
+    (
+      SELECT id
+      FROM animals
       WHERE name = 'Squirtle'
     ),
     (
