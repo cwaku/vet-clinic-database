@@ -2,6 +2,8 @@
 
 > This is a database for a vet clinic. It shows characteristics of animals in the clinic.
 
+![](./vet_clinic_db_schema_diagram.png)
+
 
 ## Getting Started
 
